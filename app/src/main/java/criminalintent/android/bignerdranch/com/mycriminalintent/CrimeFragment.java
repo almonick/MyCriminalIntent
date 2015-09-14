@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.UUID;
@@ -40,6 +42,8 @@ public class CrimeFragment extends Fragment {
 	private EditText mTitle;
 	private Button mDateButton, mSuspectBtn, mReportBtn;
 	private CheckBox mSolvedCheckBox;
+	private ImageView mImageView;
+	private ImageButton mCameraButton;
 
 
 	public static CrimeFragment newInstance(UUID id) {
@@ -131,6 +135,15 @@ public class CrimeFragment extends Fragment {
 
 			}
 		});
+
+		mCameraButton = (ImageButton) view.findViewById(R.id.camera_btn);
+		mCameraButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		mImageView = (ImageView) view.findViewById(R.id.crime_photo);
 		return view;
 	}
 
