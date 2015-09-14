@@ -129,6 +129,13 @@ public class CrimeListFragment extends Fragment {
 			mTitle = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
 			mDate = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
 			mSolved = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_checkBox);
+			mSolved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					mCrime.setSolved(isChecked);
+					CrimeLab.getCrimeLab(getActivity()).updateCrime(mCrime);
+				}
+			});
 		}
 
 		public void bindCrime(Crime crime) {
@@ -140,6 +147,7 @@ public class CrimeListFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			Log.d(TAG, "### crime clicked " + mCrime);
 			Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
 			startActivity(intent);
 		}
