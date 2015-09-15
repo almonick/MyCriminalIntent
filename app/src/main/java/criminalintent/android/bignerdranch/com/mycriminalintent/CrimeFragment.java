@@ -52,6 +52,7 @@ public class CrimeFragment extends Fragment {
 	private ImageButton mCameraButton;
 	private File mPhotoFile;
 	private int mPhotoWidth, mPhotoHeight;
+	private CrimeFragment.Callbacks mCallbacks;
 
 
 	public static CrimeFragment newInstance(UUID id) {
@@ -97,6 +98,7 @@ public class CrimeFragment extends Fragment {
 			@Override
 			public void afterTextChanged(Editable s) {
 				mCrime.setTitle(s.toString());
+				updateCrime();
 			}
 		});
 		mDateButton = (Button) view.findViewById(R.id.crime_date);
@@ -115,6 +117,7 @@ public class CrimeFragment extends Fragment {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mCrime.setSolved(isChecked);
+				updateCrime();
 			}
 		});
 
@@ -218,6 +221,7 @@ public class CrimeFragment extends Fragment {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mCrime.setDate(date);
 			updateDate();
+			updateCrime();
 		} else if(requestCode == REQUEST_CONTACTS && data != null) {
 			Uri uri = data.getData();
 			Log.d("", "### uri " + uri);
@@ -228,12 +232,14 @@ public class CrimeFragment extends Fragment {
 					cursor.moveToFirst();
 					String suspect = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 					updateSuspect(suspect);
+					updateCrime();
 				}
 			} finally {
 				cursor.close();
 			}
 		} else if(requestCode == REQUEST_CAPTURE_IMAGE ) {
 			updatePhoto();
+			updateCrime();
 		}
 	}
 
@@ -273,6 +279,7 @@ public class CrimeFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		Log.d(TAG, "Fragment onAttach");
+		mCallbacks = (Callbacks) activity;
 
 	}
 
@@ -280,6 +287,7 @@ public class CrimeFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		Log.d(TAG, "Fragment onDetach");
+		mCallbacks = null;
 	}
 
 	@Override
@@ -311,5 +319,14 @@ public class CrimeFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		Log.d(TAG, "Fragment onViewCreated");
+	}
+
+	private void updateCrime(){
+		CrimeLab.getCrimeLab(getActivity()).updateCrime(mCrime);
+		mCallbacks.onCrimeUpdated(mCrime);
+	}
+
+	public interface Callbacks{
+		void onCrimeUpdated(Crime crime);
 	}
 }

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-public class CrimeListActivity extends SingleFragmentActivity implements CrimeListFragment.Callbacks{
+public class CrimeListActivity extends SingleFragmentActivity implements CrimeListFragment.Callbacks, CrimeFragment.Callbacks{
 
 	private static final String TAG = CrimeListActivity.class.getSimpleName();
 
@@ -28,5 +28,11 @@ public class CrimeListActivity extends SingleFragmentActivity implements CrimeLi
 			Fragment crimeFragment = CrimeFragment.newInstance(crime.getId());
 			getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment_container, crimeFragment).commit();
 		}
+	}
+
+	@Override
+	public void onCrimeUpdated(Crime crime) {
+		CrimeListFragment crimeListFragment = (CrimeListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		crimeListFragment.updateUI();
 	}
 }

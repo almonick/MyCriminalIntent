@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import java.util.UUID;
 
-public class CrimeActivity extends SingleFragmentActivity {
+public class CrimeActivity extends SingleFragmentActivity implements CrimeFragment.Callbacks {
 
 	private static final String TAG = CrimeActivity.class.getSimpleName();
 	public static final  String EXTRA_CRIME_ID = "criminalintent.android.bignerdranch.com.crimeActivity.crimeID";
@@ -40,5 +40,8 @@ public class CrimeActivity extends SingleFragmentActivity {
 	}
 
 
+	@Override
+	public void onCrimeUpdated(Crime crime) {
 
+	}
 }
