@@ -11,7 +11,7 @@ import criminalintent.android.bignerdranch.com.mycriminalintent.database.CrimeDB
  */
 public class CrimeBaseHelper extends SQLiteOpenHelper {
 
-	private final static int VERSION = 2;
+	private final static int VERSION = 1;
 	private final static String DB_NAME = "crimeBase.db";
 
 	public CrimeBaseHelper(Context context) {
@@ -24,14 +24,14 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
 						+ CrimeTable.Cols.UUID
 						+ ", " + CrimeTable.Cols.TITLE
 						+ ", " + CrimeTable.Cols.DATE
-						+ ", " + CrimeTable.Cols.SOLVED + ")"
+						+ ", " + CrimeTable.Cols.SOLVED
+						+ ", " + CrimeTable.Cols.SUSPECT +")"
 		);
 
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("ALTER TABLE " + CrimeTable.NAME +	" ADD " +  CrimeTable.Cols.SUSPECT  + "  varchar(255) "	);
 
 	}
 }

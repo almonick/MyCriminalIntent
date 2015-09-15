@@ -1,6 +1,7 @@
 package criminalintent.android.bignerdranch.com.mycriminalintent;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class CrimeListFragment extends Fragment {
 	private RecyclerView mCrimesRecyclerView;
 	private CrimeAdapter mAdapter;
 	private boolean mSubVisible;
+	private Callbacks mCallbacks;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,18 @@ public class CrimeListFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(SAVE_SUBTITLE_VISIBLE, mSubVisible);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallbacks = (Callbacks) activity;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mCallbacks = null;
 	}
 
 	@Override
@@ -147,9 +161,7 @@ public class CrimeListFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			Log.d(TAG, "### crime clicked " + mCrime);
-			Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-			startActivity(intent);
+			mCallbacks.onCrimeSelected(mCrime);
 		}
 	}
 
@@ -184,6 +196,11 @@ public class CrimeListFragment extends Fragment {
 		public int getItemCount() {
 			return mCrimes.size();
 		}
+	}
+
+	public interface Callbacks{
+		void onCrimeSelected(Crime crime);
+
 	}
 
 }

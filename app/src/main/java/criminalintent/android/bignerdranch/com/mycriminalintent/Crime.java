@@ -1,5 +1,8 @@
 package criminalintent.android.bignerdranch.com.mycriminalintent;
 
+import android.content.Context;
+
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -60,6 +63,10 @@ public class Crime {
 
 	public UUID getId() {
 		return mId;
+	}
+
+	public String getPhotoFileName(){
+		return "IMAGE_" + mId.toString() + ".jpg";
 	}
 
 	@Override
