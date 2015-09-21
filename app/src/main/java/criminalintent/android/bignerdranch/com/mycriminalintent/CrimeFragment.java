@@ -220,8 +220,9 @@ public class CrimeFragment extends Fragment {
 		if(requestCode == REQUEST_DATE_CHANGE) {
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mCrime.setDate(date);
-			updateDate();
-			updateCrime();
+
+
+
 		} else if(requestCode == REQUEST_CONTACTS && data != null) {
 			Uri uri = data.getData();
 			Log.d("", "### uri " + uri);
